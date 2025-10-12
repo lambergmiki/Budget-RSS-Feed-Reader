@@ -1,22 +1,23 @@
-import "./index.css";
-// import { convertRssToHtml } from "rss2html";
+import logger from "morgan";
+import { convertRssToHtml } from "rss2html";
 
-// const result = await convertRssToHtml("https://www.theverge.com/rss/index.xml");
+import express from "express";
 
-// console.log(result);
+const cors = cors();
+app.use(cors());
 
-function sortByPubDate(event) {
-  // Logic for shifting the list, e.g. by date (oldest/most recent)
-  console.log("Button has been clicked", event);
-}
+const app = express();
+const port = 3000;
 
-function sortByRead(event) {
-  // Logic for sorting feed by read status
-}
+const logger = logger("dev");
 
-function refreshFeed(event) {
-  // Logic for making a new fetch to update feed
-}
+app.get("/", (req, res) => {
+    try {
+    } catch (error) {
+        console.log(`Error message: ${error}`);
+    }
+});
 
-const button = document.querySelector("button");
-button.addEventListener("click", sortByPubDate);
+app.listen(port, () => {
+    console.log(`App listening on port ${port}`);
+});

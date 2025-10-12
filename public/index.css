@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@layer base {
+    button {
+        @apply border-1 bg-amber-700 p-2;
+    }
+}

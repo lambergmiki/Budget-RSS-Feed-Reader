@@ -4,15 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title >L3 - 1DV610</title>
-    <link href="/src/index.css" rel="stylesheet">
-    <script type="module" src="/src/index.js"></script>
+    <link href="/public/index.css" rel="stylesheet">
+    <script type="module" src="/public/index.js"></script>
   </head>
-  <body>
+  <body class="min-h-screen">
     <div class="text-5xl text-center p-8 font-extrabold">The Budget RSS Feed Reader</div>
-    <div class="button-container">
-    <button name="refresh">Refresh</button>
+    
+    <div class="button-container flex justify-center">
+      <button name="refresh">Load feed</button>
   <button>Sort by published date</button>
   <button>Sort by read</button>
-  </div>
+    </div>
+
+      <div class="input-container flex flex-col max-w-64">
+              <label class="text-2xl" for="url-input">Enter RSS-URL here</label>
+      <input class="border-2 text-white" id="url-input">
+      </div>
+      
+      <div class="feed-container mt-4 bg-amber-200 border-2 border-double">
+        <div class="min-h-[800px] overflow-auto">
+          <div>example content</div>
+        </div>
+
+      </div>
   </body>
 </html>
