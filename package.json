@@ -6,7 +6,8 @@
         "node": ">= 20.6.0"
     },
     "scripts": {
-        "dev": "vite",
+        "frontend": "vite",
+        "backend": "nodemon backend/src/server.js",
         "preview": "vite preview",
         "format": "prettier --write .",
         "lint": "prettier --check ."

@@ -17,15 +17,16 @@
 
   <label class="text-2xl" for="url-input">Enter RSS-URL here</label>
       <div class="input-container flex max-w-fit">
-        <form action="/" method="POST">
-      <input class="border-2 text-white" id="url-input">
-      <input type="submit" value="Submit">
-      </form>
+        <form action="/" method="POST" id="url-form">
+          <input type="text" class="border-2" id="url-input">
+          <button type="submit" id="submit-button">Submit</button>
+        </form>
       </div>
       
       <div class="feed-container mt-4 border-2 border-double">
+
         <div class="min-h-[800px] overflow-auto">
-          <div>example content</div>
+          <div id="feed-box"></div>
         </div>
 
       </div>

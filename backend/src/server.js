@@ -5,9 +5,6 @@ import { fileURLToPath } from "url";
 import { router } from "./routes/router.js";
 import helmet from "helmet";
 import { dirname, join } from "node:path";
-import { errorHandling } from "./middleware/errorHandling.js";
-
-import { convertRssToHtml } from "rss2html";
 
 try {
     const app = express();
@@ -15,8 +12,9 @@ try {
     // Middleware
     app.use(cors());
     app.use(helmet());
-    app.use(logger("combined"));
+    app.use(logger("dev"));
     app.use(express.json());
+    app.use(express.urlencoded({ extend: false }));
 
     // Resolve path
     const directoryFullName = dirname(fileURLToPath(import.meta.url));
@@ -28,8 +26,6 @@ try {
     );
 
     app.use("/", router);
-
-    app.use(errorHandling);
 
     const PORT = 3000;
     app.listen(PORT, () => {
