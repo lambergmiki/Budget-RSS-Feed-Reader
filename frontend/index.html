@@ -1,34 +1,45 @@
 <!doctype html>
 <html lang="en">
+  
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title >L3 - 1DV610</title>
     <script type="module" src="/src/index.js"></script>
   </head>
+
   <body class="min-h-screen">
-    <div class="text-5xl text-center p-8 font-extrabold">The Budget RSS Feed Reader</div>
+
+    <!-- Grid layout, rows in order: header, buttons, input, feed. Feed takes up remaining space (1fr) -->
+    <div class="grid grid-rows-[auto_auto_auto_1fr] justify-items-center gap-6 p-8">
+
+    <header class="text-5xl text-center p-8 font-extrabold">
+      The Budget RSS Feed Reader
+    </header>
     
-    <div class="button-container flex justify-center gap-2">
-      <button name="refresh">Load feed</button>
-  <button>Sort by published date</button>
-  <button>Sort by read</button>
+    <div class="button-container flex max-w-fit gap-2">
+      <button class="mr-20">
+        <img src="./public/icons/settings-icon.png" alt="Settings">
+      </button>
+      <button class="menu-button" name="refresh">Refresh feed</button>
+      <button class="menu-button">Sort by published date</button>
+      <button class="menu-button">Sort by read</button>
+      <button class="menu-button">Read later</button>
     </div>
 
-  <label class="text-2xl" for="url-input">Enter RSS-URL here</label>
       <div class="input-container flex max-w-fit">
-        <form action="/" method="POST" id="url-form">
-          <input type="text" class="border-2" id="url-input">
-          <button type="submit" id="submit-button">Submit</button>
-        </form>
+        <label class="text-2xl mr-2" for="url-input">Enter RSS-URL here</label>
+          <form action="/" method="POST" id="url-form">
+            <input type="text" class="border-2 p-1" id="url-input">
+            <button type="submit" id="submit-button">Submit</button>
+          </form>
       </div>
       
-      <div class="feed-container mt-4 border-2 border-double">
-
-        <div class="min-h-[800px] overflow-auto">
+      <div class="feed-container min-w-[800px] max-w-full mt-4 border-2 border-double overflow-auto min-h-[500px] p-4">
           <div id="feed-box"></div>
-        </div>
-
       </div>
+
+    </div>
   </body>
+
 </html>

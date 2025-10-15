@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
 @layer base {
-    button {
-        @apply border bg-amber-700 p-2;
+    .menu-button {
+        @apply border bg-amber-700 hover:bg-amber-900 p-2;
+    }
+
+    #submit-button {
+        @apply border bg-blue-500 hover:bg-blue-950 ml-2 p-1;
     }
 }
