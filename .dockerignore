@@ -4,3 +4,4 @@ Dockerfile
 docker-compose.yaml
 .git
 .vscode
+frontend/dist

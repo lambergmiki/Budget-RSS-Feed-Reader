@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Prevent page refresh
         event.preventDefault();
 
-        const res = await fetch("http://localhost:3000/processUrl", {
+        const res = await fetch("https://bfr.mikilamberg.com/processUrl", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
