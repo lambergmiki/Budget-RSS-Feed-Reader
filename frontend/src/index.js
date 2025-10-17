@@ -6,8 +6,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#url-form");
     const urlInput = document.querySelector("#url-input");
     const feedBox = document.querySelector("#feed-box");
+    const refreshButton = document.querySelector("#refresh-button");
+    const sortByPublished = document.querySelector("#sort-published");
+    const sortByRead = document.querySelector("#sort-read");
+    const readLater = document.querySelector("#read-later");
 
     form.addEventListener("submit", getContentFromBackend);
+
+    // Handle clicks on refresh button
+    refreshButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        // TODO: Call getContentFromBackend() again, to refresh the feed - is there a better way?
+    });
+
+    // Handle clicks on sort by published date
+    sortByPublished.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        // TODO: implement logic for sorting based on published date/time
+    });
+
+    // Handle clicks on sort by read
+    sortByRead.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        // TODO: implement logic for sorting based on read status
+    });
 
     /**
      * Sends the URL submitted by the user to the backend for processing.
@@ -29,8 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }),
         });
 
+        // data is the output as an object, { htmloutput: '<div>...' }
         const data = await res.json();
 
-        feedBox.innerHTML = data.convertedData;
+        // Paste the value from the htmlOutput object and render on page
+        feedBox.innerHTML = data.htmlOutput;
     }
 });
