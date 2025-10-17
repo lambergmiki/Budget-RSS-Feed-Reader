@@ -1,29 +1,36 @@
-import logger from "morgan";
 import express from "express";
 import cors from "cors";
-import { fileURLToPath } from "url";
-import { router } from "./routes/router.js";
 import helmet from "helmet";
-import { dirname, join } from "node:path";
+import logger from "morgan";
+import path, { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { router } from "./routes/router.js";
 
 try {
     const app = express();
 
-    // Middleware
     app.use(cors());
     app.use(helmet());
     app.use(logger("dev"));
     app.use(express.json());
-    app.use(express.urlencoded({ extend: false }));
+    app.use(express.urlencoded({ extended: false }));
 
-    // Resolve path
-    const directoryFullName = dirname(fileURLToPath(import.meta.url));
-    console.log("Running from directory:", directoryFullName);
+    // Resolve __dirname to /home/mlamb/code/1dv610/L3/backend/src
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    console.log("__dirname: ", __dirname);
 
-    app.use(
-        "/frontend/public",
-        express.static(join(directoryFullName, "..", "frontend/public"))
+    /**
+     * Serves frontend from /home/mlamb/code/1dv610/L3/frontend/dist
+     * by adjusting path to dist folder
+     */
+    const distPath = join(__dirname, "../../frontend/dist");
+    console.log(
+        "Serving frontend from, __dirname joined by '../../frontend/dist':",
+        distPath
     );
+
+    // Serve static files built by Vite
+    app.use(express.static(distPath));
 
     app.use("/", router);
 
@@ -32,6 +39,6 @@ try {
         console.log(`App listening on http://localhost:${PORT}`);
     });
 } catch (error) {
-    console.error(error);
-    process.exitCode = 1;
+    console.error("Server failed to start:", error);
+    process.exitCode(1);
 }

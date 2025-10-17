@@ -1,0 +1,8 @@
+services:
+    web:
+        build: .
+        image: budget-feed-reader-app:latest
+        container_name: budget-feed-reader-app
+        ports:
+            - "3000:3000"
+        restart: unless-stopped

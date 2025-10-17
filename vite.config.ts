@@ -3,5 +3,8 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
     plugins: [tailwindcss()],
-    root: "./frontend",
+    root: "frontend",
+    build: {
+        outDir: "dist", // output will be frontend/dist
+    },
 });

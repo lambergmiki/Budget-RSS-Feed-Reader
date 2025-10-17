@@ -1,13 +1,13 @@
 {
-    "name": "l3-app",
+    "name": "budget-feed-reader",
     "version": "0.0.1",
     "type": "module",
     "enginges": {
-        "node": ">= 20.6.0"
+        "node": ">= 20.19"
     },
     "scripts": {
-        "frontend": "vite",
-        "backend": "nodemon backend/src/server.js",
+        "start": "nodemon backend/src/server.js",
+        "build": "vite build",
         "preview": "vite preview",
         "format": "prettier --write .",
         "lint": "prettier --check ."
