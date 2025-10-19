@@ -9,7 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const refreshButton = document.querySelector("#refresh-button");
     const sortByPublished = document.querySelector("#sort-published");
     const sortByRead = document.querySelector("#sort-read");
+
+    // TODO: Should lead to a new page with articles marked "read later".
     const readLater = document.querySelector("#read-later");
+
+    let feedData;
 
     form.addEventListener("submit", getContentFromBackend);
 
@@ -34,6 +38,22 @@ document.addEventListener("DOMContentLoaded", () => {
         // TODO: implement logic for sorting based on read status
     });
 
+    // TODO: Subject to testing. Button not yet implemented.
+    readLaterButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        // TODO: Redirect to read-later page
+
+        feedBox.innerHTML = "";
+
+        for (const property of readLaterArray) {
+            feedBox.innerHTML += `<div>${property}</div>`;
+            feedBox.innerHTML += `<div>${property.title}</div>`;
+            feedBox.innerHTML += `<div>${property.link}</div>`;
+            feedBox.innerHTML += `<div>${property.published}</div>`;
+        }
+    });
+
     /**
      * Sends the URL submitted by the user to the backend for processing.
      * Receives the processed data as HTML which is then rendered on the frontend.
@@ -44,7 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // Prevent page refresh
         event.preventDefault();
 
-        const res = await fetch("https://bfr.mikilamberg.com/processUrl", {
+        // Use development base URL if available, otherwise resolve to an empty string
+        const backendBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
+
+        const res = await fetch(`${backendBaseUrl}/processUrl`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -54,10 +77,20 @@ document.addEventListener("DOMContentLoaded", () => {
             }),
         });
 
-        // data is the output as an object, { htmloutput: '<div>...' }
+        // data is the output as an object, { htmloutput: '<div>...', arrayOutput: [..., ...] }
         const data = await res.json();
 
-        // Paste the value from the htmlOutput object and render on page
+        // Assign a "read" property to each article
+        for (const article of data.arrayOutput) {
+            article.read = false;
+        }
+
+        // Store fetched data for later, mainly the `arrayOutput`
+        feedData = data;
+
+        // Render the HTML value
         feedBox.innerHTML = data.htmlOutput;
     }
+
+    async function loadFeedData() {}
 });

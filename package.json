@@ -6,14 +6,18 @@
         "node": ">= 20.19"
     },
     "scripts": {
-        "start": "nodemon backend/src/server.js",
+        "dev:backend": "nodemon backend/src/server.js",
+        "dev:frontend": "vite",
+        "dev": "concurrently --names \"BACKEND,FRONTEND\" -c \"yellow,magenta\" \"npm run dev:backend\" \"npm run dev:frontend\"",
         "build": "vite build",
         "preview": "vite preview",
+        "start": "node backend/src/server.js",
         "format": "prettier --write .",
         "lint": "prettier --check ."
     },
     "license": "MIT",
     "devDependencies": {
+        "concurrently": "^9.2.1",
         "morgan": "^1.10.1",
         "nodemon": "^3.1.10",
         "prettier": "3.6.2",
