@@ -5,7 +5,6 @@
 [![Email](https://img.shields.io/badge/Email-miki@mikilamberg.me-blue?style=for-the-badge&logo=gmail&logoColor=white)](mailto:miki@mikilamberg.me)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/lambergmiki)
 
-<!-- PROJECT header -->
 <br />
 <div align="center">
 
@@ -14,7 +13,6 @@
 </br>
 </div>
 
-<!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -22,6 +20,7 @@
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
       </ul>
     </li>
     <li>
@@ -37,8 +36,6 @@
   </ol>
 </details>
 
-<!-- ABOUT THE PROJECT -->
-
 ## About The Project
 
 My take on a simple feed reader. Why look into other feed readers when you can dive in and try to build one yourself?
@@ -53,7 +50,9 @@ This project was built with the following tech stack.
 [![Express.js][Express.js]][Express-url]
 [![Nginx][Nginx]][Nginx]
 
-<!-- GETTING STARTED -->
+### How It Works
+
+TODO: Add screenshots and complementary info.
 
 ## Getting Started
 
@@ -64,30 +63,32 @@ This project was built with the following tech stack.
 
 ### Installation
 
-TODO: Instructions with Docker Compose
+1. Clone the repo:
+
+`git clone https://github.com/lambergmiki/Budget-RSS-Feed-Reader`
+
+2. `cd budget-feed-reader`
+3. `docker compose up --build -d`
+4. Check that the container is running: `docker compose ps`
+5. To stop the container, type `docker stop <container-ID>`.
 
 ---
 
-By default the app will be available at: http://localhost:3000
-
-<!-- LICENSE -->
+By default the app will be available at: http://localhost:3000 <- make sure the port is free on your machine!
 
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-<!-- CONTACT -->
-
 ## Contact
 
 Did you find bugs that are not yet listed as [TODO: issues], or do you simply want a chat? E-mail me or send me a DM on LinkedIn (both can be found at the top of this README!).
-
-<!-- ACKNOWLEDGMENTS -->
 
 ## Acknowledgments
 
 Thanks to the following individuals and organisations for contributing to my project in one way or another.
 
+- [Andreas Eriksson](https://github.com/AN-Eriksson) ➔ for once again helping me out with deployment and pesky server settings.
 - [Miniflux](https://miniflux.app/)
 - [README template by othneildrew](https://github.com/othneildrew)
 - [Choose an Open Source License](https://choosealicense.com)

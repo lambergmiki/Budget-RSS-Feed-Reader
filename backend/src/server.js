@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import logger from "morgan";
-import path, { dirname, join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { router } from "./routes/router.js";
 
@@ -34,7 +34,7 @@ try {
 
     app.use("/", router);
 
-    const PORT = 3000;
+    const PORT = 3001;
     app.listen(PORT, () => {
         console.log(`App listening on http://localhost:${PORT}`);
     });
