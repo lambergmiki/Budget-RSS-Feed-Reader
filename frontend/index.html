@@ -18,13 +18,10 @@
     </header>
     
     <div class="button-container flex max-w-fit gap-2">
-      <button class="mr-20">
-        <img src="./public/icons/settings-icon.png" alt="Settings">
-      </button>
-      <button id="refresh-button" class="menu-button" name="refresh">Refresh feed</button>
+      <button id="refresh" class="menu-button" name="refresh">Refresh feed</button>
       <button id="sort-published" class="menu-button">Sort by published date</button>
       <button id="sort-read" class="menu-button">Sort by read</button>
-      <button id="read-later" class="menu-button">Read later</button>
+      <button class="menu-button read-later min-w-24">Read later</button>
     </div>
 
       <div class="input-container flex max-w-fit">
@@ -36,7 +33,6 @@
       </div>
       
       <div class="feed-container min-w-[800px] max-w-full mt-4 border-2 border-double overflow-auto min-h-[500px] p-4">
-          <div id="feed-box"></div>
       </div>
 
     </div>

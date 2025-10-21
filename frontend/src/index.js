@@ -1,96 +1,141 @@
 import "./index.css";
+import { fetchFeed } from "./fetchFeed.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM fully loaded and parsed");
-
     const form = document.querySelector("#url-form");
     const urlInput = document.querySelector("#url-input");
-    const feedBox = document.querySelector("#feed-box");
-    const refreshButton = document.querySelector("#refresh-button");
-    const sortByPublished = document.querySelector("#sort-published");
-    const sortByRead = document.querySelector("#sort-read");
-
-    // TODO: Should lead to a new page with articles marked "read later".
-    const readLater = document.querySelector("#read-later");
+    const feedContainer = document.querySelector(".feed-container");
+    const navRefresh = document.querySelector("#refresh");
+    const navSortByPublished = document.querySelector("#sort-published");
+    const navReadLaterHome = document.querySelector(".read-later");
 
     let feedData;
+    let currentView = "home";
+    let latestUrl;
+
+    let readLaterArray = [];
+
+    window.addEventListener("hashchange", routeChangeHandler);
 
     form.addEventListener("submit", getContentFromBackend);
 
-    // Handle clicks on refresh button
-    refreshButton.addEventListener("click", (event) => {
-        event.preventDefault();
-
-        // TODO: Call getContentFromBackend() again, to refresh the feed - is there a better way?
-    });
-
     // Handle clicks on sort by published date
-    sortByPublished.addEventListener("click", (event) => {
+    navSortByPublished.addEventListener("click", (event) => {
         event.preventDefault();
 
-        // TODO: implement logic for sorting based on published date/time
-    });
+        if (feedData === undefined) {
+            urlInput.focus();
+            urlInput.value = "No feed to sort!";
 
-    // Handle clicks on sort by read
-    sortByRead.addEventListener("click", (event) => {
-        event.preventDefault();
-
-        // TODO: implement logic for sorting based on read status
-    });
-
-    // TODO: Subject to testing. Button not yet implemented.
-    readLaterButton.addEventListener("click", (event) => {
-        event.preventDefault();
-
-        // TODO: Redirect to read-later page
-
-        feedBox.innerHTML = "";
-
-        for (const property of readLaterArray) {
-            feedBox.innerHTML += `<div>${property}</div>`;
-            feedBox.innerHTML += `<div>${property.title}</div>`;
-            feedBox.innerHTML += `<div>${property.link}</div>`;
-            feedBox.innerHTML += `<div>${property.published}</div>`;
+            setTimeout(() => (urlInput.value = ""), 2000);
+        } else {
+            feedData.arrayOutput.reverse();
+            renderReadLaterFeed(feedData.arrayOutput);
         }
     });
 
-    /**
-     * Sends the URL submitted by the user to the backend for processing.
-     * Receives the processed data as HTML which is then rendered on the frontend.
-     *
-     * @param {*} event the form submission event, triggered by clicking "submit" or keypress "enter".
-     */
-    async function getContentFromBackend(event) {
-        // Prevent page refresh
+    // Handle clicks on refresh button
+    navRefresh.addEventListener("click", () => {
+        refreshFeed();
+    });
+
+    navReadLaterHome.addEventListener("click", (event) => {
         event.preventDefault();
 
-        // Use development base URL if available, otherwise resolve to an empty string
-        const backendBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
+        window.location.hash =
+            currentView === "home" ? "#/read-later" : "#/home";
+    });
 
-        const res = await fetch(`${backendBaseUrl}/processUrl`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                parcel: urlInput.value,
-            }),
-        });
+    function routeChangeHandler() {
+        const route = window.location.hash;
 
-        // data is the output as an object, { htmloutput: '<div>...', arrayOutput: [..., ...] }
-        const data = await res.json();
-
-        // Assign a "read" property to each article
-        for (const article of data.arrayOutput) {
-            article.read = false;
+        if (route === "#/read-later") {
+            currentView = "read-later";
+            navReadLaterHome.textContent = "Home";
+            renderReadLaterFeed(readLaterArray);
+        } else {
+            currentView = "home";
+            navReadLaterHome.textContent = "Read later";
+            renderHomeFeed(feedData);
         }
-
-        // Store fetched data for later, mainly the `arrayOutput`
-        feedData = data;
-
-        // Render the HTML value
-        feedBox.innerHTML = data.htmlOutput;
     }
 
-    async function loadFeedData() {}
+    /**
+     * Handles form submission to fetch and render a feed from the given URL.
+     *
+     * Sends the URL submitted by the user to the backend for processing and validation.
+     * Receives the processed data which is then rendered on the frontend.
+     *
+     * @param {*} event the form submission event.
+     */
+    async function getContentFromBackend(event) {
+        event.preventDefault();
+
+        if (urlInput.value === "") {
+            urlInput.focus();
+            urlInput.value = "No URL provided!";
+
+            setTimeout(() => (urlInput.value = ""), 2000);
+        } else {
+            const data = await fetchFeed(urlInput.value);
+
+            // Store fetched data for later, mainly the `arrayOutput`
+            feedData = data;
+            latestUrl = urlInput.value;
+            window.location.hash = "#/home";
+            renderHomeFeed(feedData);
+        }
+    }
+
+    // Fetches the latest submitted URL, navigates back to home view and "refreshes" (renders) that feed
+    async function refreshFeed() {
+        if (latestUrl === undefined) {
+            urlInput.focus();
+            urlInput.value = "No feed to refresh!";
+
+            setTimeout(() => (urlInput.value = ""), 2000);
+        } else {
+            const data = await fetchFeed(latestUrl);
+            feedData = data;
+            window.location.hash = "#/home";
+            renderHomeFeed(feedData);
+        }
+    }
+
+    /**
+     * Renders the home view.
+     *
+     * @param {Object} feedData - the data object, containing a raw, unstyled feed as a HTML string,
+     * and an array of objects (articles) that are easier to manipulate
+     */
+    function renderHomeFeed(feedData) {
+        const mappedHtml = feedData.arrayOutput
+            .map(
+                (article) =>
+                    `<div>${article?.author}</div><div><a class="text-xl underline underline-offset-1" href="${article?.link}" target="_blank">${article.title}</a></div><div>${article?.published}</div><button class="border-2 p-1 mt-2">Read later</button><br></br>`
+            )
+            .join("");
+
+        feedContainer.innerHTML = mappedHtml;
+    }
+
+    /**
+     * Renders the read later view.
+     *
+     * @param {Array<Object>} readLaterArray - Array of saved articles. They do not persist.
+     */
+    function renderReadLaterFeed(readLaterArray) {
+        if (readLaterArray.length > 0) {
+            const mappedHtml = readLaterArray
+                .map(
+                    (article) =>
+                        `<div>${article?.author}</div><div><a class="text-xl underline underline-offset-1" href="${article?.link}" target="_blank">${article.title}</a></div><div>${article?.published}</div><button class="border-2 p-1 mt-2">Read later</button><br></br>`
+                )
+                .join("");
+
+            feedContainer.innerHTML = mappedHtml;
+        } else {
+            feedContainer.innerHTML = `<p class="text-gray-600 italic">You have not saved any articles yet :(</p>`;
+        }
+    }
 });
