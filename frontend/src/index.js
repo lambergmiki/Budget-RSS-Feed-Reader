@@ -1,6 +1,7 @@
 import "./index.css";
 import { fetchFeed } from "./fetchFeed.js";
 import { FeedRenderer } from "../utility/FeedRenderer.js";
+import { FeedSorter } from "../utility/FeedSorter.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#url-form");
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let readLaterArray = [];
 
     const feedRenderer = new FeedRenderer(feedContainer);
+    const feedSorter = new FeedSorter();
 
     window.addEventListener("hashchange", routeChangeHandler);
 
@@ -26,15 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     navSortByPublished.addEventListener("click", (event) => {
         event.preventDefault();
 
-        if (feedData === undefined) {
-            urlInput.focus();
-            urlInput.value = "No feed to sort!";
-
-            setTimeout(() => (urlInput.value = ""), 2000);
-        } else {
-            feedData.arrayOutput.reverse();
-            feedRenderer.renderReadLaterFeed(feedData.arrayOutput);
-        }
+        const sortedArray = feedSorter.sortByDate(feedData.arrayOutput);
+        feedRenderer.renderReadLaterFeed(sortedArray);
     });
 
     // Handle clicks on refresh button
