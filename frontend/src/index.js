@@ -1,5 +1,6 @@
 import "./index.css";
 import { fetchFeed } from "./fetchFeed.js";
+import { FeedRenderer } from "../utility/FeedRenderer.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#url-form");
@@ -14,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let latestUrl;
 
     let readLaterArray = [];
+
+    const feedRenderer = new FeedRenderer(feedContainer);
 
     window.addEventListener("hashchange", routeChangeHandler);
 
@@ -30,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => (urlInput.value = ""), 2000);
         } else {
             feedData.arrayOutput.reverse();
-            renderReadLaterFeed(feedData.arrayOutput);
+            feedRenderer.renderReadLaterFeed(feedData.arrayOutput);
         }
     });
 
@@ -52,11 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (route === "#/read-later") {
             currentView = "read-later";
             navReadLaterHome.textContent = "Home";
-            renderReadLaterFeed(readLaterArray);
+            feedRenderer.renderReadLaterFeed(readLaterArray);
         } else {
             currentView = "home";
             navReadLaterHome.textContent = "Read later";
-            renderHomeFeed(feedData);
+            feedRenderer.renderHomeFeed(feedData);
         }
     }
 
@@ -83,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
             feedData = data;
             latestUrl = urlInput.value;
             window.location.hash = "#/home";
-            renderHomeFeed(feedData);
+            feedRenderer.renderHomeFeed(feedData);
         }
     }
 
@@ -98,44 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await fetchFeed(latestUrl);
             feedData = data;
             window.location.hash = "#/home";
-            renderHomeFeed(feedData);
-        }
-    }
-
-    /**
-     * Renders the home view.
-     *
-     * @param {Object} feedData - the data object, containing a raw, unstyled feed as a HTML string,
-     * and an array of objects (articles) that are easier to manipulate
-     */
-    function renderHomeFeed(feedData) {
-        const mappedHtml = feedData.arrayOutput
-            .map(
-                (article) =>
-                    `<div>${article?.author}</div><div><a class="text-xl underline underline-offset-1" href="${article?.link}" target="_blank">${article.title}</a></div><div>${article?.published}</div><button class="border-2 p-1 mt-2">Read later</button><br></br>`
-            )
-            .join("");
-
-        feedContainer.innerHTML = mappedHtml;
-    }
-
-    /**
-     * Renders the read later view.
-     *
-     * @param {Array<Object>} readLaterArray - Array of saved articles. They do not persist.
-     */
-    function renderReadLaterFeed(readLaterArray) {
-        if (readLaterArray.length > 0) {
-            const mappedHtml = readLaterArray
-                .map(
-                    (article) =>
-                        `<div>${article?.author}</div><div><a class="text-xl underline underline-offset-1" href="${article?.link}" target="_blank">${article.title}</a></div><div>${article?.published}</div><button class="border-2 p-1 mt-2">Read later</button><br></br>`
-                )
-                .join("");
-
-            feedContainer.innerHTML = mappedHtml;
-        } else {
-            feedContainer.innerHTML = `<p class="text-gray-600 italic">You have not saved any articles yet :(</p>`;
+            feedRenderer.renderHomeFeed(feedData);
         }
     }
 });
