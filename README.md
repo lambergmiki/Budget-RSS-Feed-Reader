@@ -49,10 +49,14 @@ This project was built with the following tech stack.
 [![Node.js][Node.js]][Node.js-url]
 [![Express.js][Express.js]][Express-url]
 [![Nginx][Nginx]][Nginx]
+[![Docker][Docker]][Docker]
 
 ### How It Works
 
-TODO: Add screenshots and complementary info.
+Budget RSS Feed Reader is built for simplicity. Simply enter the URL from your desired RSS Feed and your content will load instantly.
+
+![Menu of Budget RSS Feed Reader](./images/how-to1.png)
+![Content box of Budget RSS Feed Reader](./images/how-to2.png)
 
 ## Getting Started
 
@@ -82,7 +86,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Did you find bugs that are not yet listed as [TODO: issues], or do you simply want a chat? E-mail me or send me a DM on LinkedIn (both can be found at the top of this README!).
+Did you find bugs that are not yet listed as [issues](https://github.com/lambergmiki/Budget-RSS-Feed-Reader/issues), or do you simply want a chat? E-mail me or send me a DM on LinkedIn (both can be found at the top of this README!).
 
 ## Acknowledgments
 
@@ -114,3 +118,4 @@ Thanks to the following individuals and organisations for contributing to my pro
 [Tailwind CSS]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
 [TailwindCSS-url]: https://tailwindcss.com/
 [Nginx]: https://img.shields.io/badge/Nginx-009639?logo=nginx&logoColor=white&style=for-the-badge
+[Docker]: https://img.shields.io/badge/docker-257bd6?style=for-the-badge&logo=docker&logoColor=white
