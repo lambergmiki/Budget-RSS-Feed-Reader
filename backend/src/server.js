@@ -34,7 +34,7 @@ try {
 
     app.use("/", router);
 
-    const PORT = 3001;
+    const PORT = 3000;
     app.listen(PORT, () => {
         console.log(`App listening on http://localhost:${PORT}`);
     });
