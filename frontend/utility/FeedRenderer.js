@@ -6,7 +6,7 @@ export class FeedRenderer {
      * Renders the home view.
      *
      * @param {Object} feedData - the data object, containing a raw, unstyled feed as a HTML string,
-     * and an array of objects (articles) that are easier to manipulate
+     * and an array of objects (articles).
      */
     renderHomeFeed(feedData) {
         const mappedHtml = feedData.arrayOutput

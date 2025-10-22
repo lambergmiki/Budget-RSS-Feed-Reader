@@ -23,7 +23,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("hashchange", routeChangeHandler);
 
-    form.addEventListener("submit", getContentFromBackend);
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const url = urlInput.value;
+
+        if (!url) {
+            urlInput.focus();
+            urlInput.value = "No URL provided!";
+            setTimeout(() => (urlInput.value = ""), 2000);
+            return;
+        }
+
+        feedData = await feedManager.handleUrlSubmit(url);
+        latestUrl = url;
+
+        window.location.hash = "#/home";
+        feedRenderer.renderHomeFeed(feedData);
+    });
 
     // Handle clicks on sort by published date
     navSortByPublished.addEventListener("click", () => {
@@ -61,33 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             currentView = "home";
             navReadLaterHome.textContent = "Read later";
-            feedRenderer.renderHomeFeed(feedData);
-        }
-    }
-
-    /** TODO: Should also be broken out to FeedManager.js?
-     * Handles form submission to fetch and render a feed from the given URL.
-     *
-     * Sends the URL submitted by the user to the backend for processing and validation.
-     * Receives the processed data which is then rendered on the frontend.
-     *
-     * @param {*} event the form submission event.
-     */
-    async function getContentFromBackend(event) {
-        event.preventDefault();
-
-        if (urlInput.value === "") {
-            urlInput.focus();
-            urlInput.value = "No URL provided!";
-
-            setTimeout(() => (urlInput.value = ""), 2000);
-        } else {
-            const data = await feedManager.fetchFeed(urlInput.value);
-
-            // Store fetched data for later, mainly the `arrayOutput`
-            feedData = data;
-            latestUrl = urlInput.value;
-            window.location.hash = "#/home";
             feedRenderer.renderHomeFeed(feedData);
         }
     }

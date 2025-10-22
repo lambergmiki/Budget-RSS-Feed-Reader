@@ -3,7 +3,7 @@ const backendBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export class FeedManager {
     /**
-     * Fetch feed data from the backend for a given URL.
+     * Fetch and construct feed data from the backend for a given URL.
      * Assigns a `read` property to each article.
      *
      * @param {string} url RSS URL to process
@@ -16,7 +16,7 @@ export class FeedManager {
             body: JSON.stringify({ parcel: url }),
         });
 
-        // data is the output as an object, { htmlOutput: '<div>...', arrayOutput: [..., ...] }
+        // response is the output as an object, { htmlOutput: '<div>...', arrayOutput: [..., ...] }
         const data = await res.json();
 
         // Assign a "read" property to each article (default false)
@@ -25,6 +25,25 @@ export class FeedManager {
         }
 
         return data;
+    }
+
+    /**
+     * Handles form submission to fetch feed data from the given URL.
+     *
+     * Sends the URL submitted by the user to the backend for processing and validation.
+     * Receives the processed data which is then rendered on the frontend.
+     *
+     * @param {*} event the form submission event.
+     */
+    async handleUrlSubmit(url) {
+        if (!url) {
+            throw new Error("No feed to refresh");
+        } else {
+            const data = await this.fetchFeed(url);
+
+            // Store fetched data for later, mainly the `arrayOutput`
+            return data;
+        }
     }
 
     // Fetches the latest submitted URL, navigates back to home view and "refreshes" (renders) that feed TODO: fix
