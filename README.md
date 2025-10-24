@@ -55,8 +55,8 @@ This project was built with the following tech stack.
 
 Budget RSS Feed Reader is built for simplicity. Simply enter the URL from your desired RSS Feed and your content will load instantly.
 
-![Menu of Budget RSS Feed Reader](./images/how-to1.png)
-![Content box of Budget RSS Feed Reader](./images/how-to2.png)
+![Menu of Budget RSS Feed Reader](./images/how-to-1.png)
+![Content box of Budget RSS Feed Reader](./images/how-to-2.png)
 
 ## Getting Started
 
