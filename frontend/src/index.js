@@ -23,24 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("hashchange", routeChangeHandler);
 
-    form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        const url = urlInput.value;
-
-        if (!url) {
-            urlInput.focus();
-            urlInput.value = "No URL provided!";
-            setTimeout(() => (urlInput.value = ""), 2000);
-            return;
-        }
-
-        feedData = await feedManager.handleUrlSubmit(url);
-        latestUrl = url;
-
-        window.location.hash = "#/home";
-        feedRenderer.renderHomeFeed(feedData);
-    });
+    form.addEventListener("submit", handleFormSubmit);
 
     // Handle clicks on sort by published date
     navSortByPublished.addEventListener("click", () => {
@@ -80,5 +63,24 @@ document.addEventListener("DOMContentLoaded", () => {
             navReadLaterHome.textContent = "Read later";
             feedRenderer.renderHomeFeed(feedData);
         }
+    }
+
+    async function handleFormSubmit(event) {
+        event.preventDefault();
+
+        const url = urlInput.value;
+
+        if (!url) {
+            urlInput.focus();
+            urlInput.value = "No URL provided!";
+            setTimeout(() => (urlInput.value = ""), 2000);
+            return;
+        }
+
+        feedData = await feedManager.handleUrlSubmit(url);
+        latestUrl = url;
+
+        window.location.hash = "#/home";
+        feedRenderer.renderHomeFeed(feedData);
     }
 });

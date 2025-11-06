@@ -2,6 +2,7 @@ export class FeedRenderer {
     constructor(feedContainer) {
         this.feedContainer = feedContainer;
     }
+
     /**
      * Renders the home view.
      *

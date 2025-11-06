@@ -46,7 +46,6 @@ export class FeedManager {
         }
     }
 
-    // Fetches the latest submitted URL, navigates back to home view and "refreshes" (renders) that feed TODO: fix
     /**
      * Refreshes the feed by re-fetching data for the provided URL.
      * Throws an error if no URL is provided.
