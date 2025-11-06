@@ -18,17 +18,13 @@ try {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     console.log("__dirname: ", __dirname);
 
-    if (process.env.NODE_ENV === "production") {
-        const distPath = join(__dirname, "../../frontend/dist");
-        console.log("Serving frontend from:", distPath);
-        app.use(express.static(distPath));
-    } else {
-        console.log("Development mode: not serving frontend/dist");
-    }
+    const distPath = join(__dirname, "../../frontend/dist");
+    console.log("Serving frontend from:", distPath);
+    app.use(express.static(distPath));
 
     app.use("/", router);
 
-    const PORT = process.env.PORT || 3000;
+    const PORT = 3000;
     app.listen(PORT, () => {
         console.log(`App listening on http://localhost:${PORT}`);
     });

@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("hashchange", routeChangeHandler);
 
-    form.addEventListener("submit", handleFormSubmit);
+    form.addEventListener("submit", fetchAndRenderFeed);
 
     // Handle clicks on sort by published date
     navSortByPublished.addEventListener("click", () => {
@@ -34,11 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Handle clicks on refresh button
     navRefresh.addEventListener("click", async () => {
         if (!latestUrl) {
-            urlInput.focus();
-            urlInput.value = "No feed to refresh!";
-
-            setTimeout(() => (urlInput.value = ""), 2000);
-            return;
+            invalidUrlMessage("No feed to refresh!");
         } else {
             feedData = await feedManager.refreshFeed(latestUrl);
             window.location.hash = "#/home";
@@ -65,16 +61,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    async function handleFormSubmit(event) {
+    async function fetchAndRenderFeed(event) {
         event.preventDefault();
 
         const url = urlInput.value;
 
         if (!url) {
-            urlInput.focus();
-            urlInput.value = "No URL provided!";
-            setTimeout(() => (urlInput.value = ""), 2000);
-            return;
+            invalidUrlMessage("No URL provided!");
         }
 
         feedData = await feedManager.handleUrlSubmit(url);
@@ -82,5 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         window.location.hash = "#/home";
         feedRenderer.renderHomeFeed(feedData);
+    }
+
+    // Helper function
+    function invalidUrlMessage(message) {
+        urlInput.focus();
+        urlInput.value = message;
+        setTimeout(() => (urlInput.value = ""), 2000);
+        return;
     }
 });
